@@ -1,0 +1,78 @@
+Error: Sorted input specified, but the file calJac.Step_2.get_cdna_v2.0.out.sort has the following out of order record
+chr1	129766589	129767971	0.0732673267326733	gene@chr1@129766589@129767971	-	400	humapp_L1HS_ORF1	338		>>humapp_L1HS;Transposable_Element;CC;ORF1;13728;2 chr1:129766262-129769234(+) 1709 329 1008#attggtgtacctgaatgtgatggagagaatgaatccaagctggaaaatacttttcaggatattatccaggaaaattttcccaatctagcaaagcaggacactattcaaccccaggtaatacagagaacaccacaaagatattcctcaagaagagcaaccccaaggcacataatcattagattcaccaggatcgaaacgaaggagaaaatactaagggcagcaagagagaaaggccaggttacccataaagggaagcctattagacttacagcagatctctcagcggaaaccctacaagccagaagagagtgCCAGCACCCCTCTTTATGTAGTCAACTCAAGGGCACTCCCTNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNcaaagtctccaagaaatatgggactatgtgaaaagacacaatctatgtttgattggtgtacctgaatgtgatggagagaatgaatccaagctggaaaatacttttcaggatattatccaggaaaattttcccaatctagcaaagcaggacactattcaaccccaggtaatacagagaacaccacaaagatattcctcaagaagagcaaccccaaggcacataatcattagattcaccaggatcgaaacgaaggagaaaatactaagggcagcaagagagaaaggccaggttacccataaagggaagcctattagacttacagcagatctctcagcggaaaccctacaagccagaagagagtgccgccctatcaggactgtaatggctattaatcacagaaacccatttctctctctctctctctttctctctctcaaaccaaagagccttcacctcctctcccaccaacattccctatcaggcccttacaggggctacccatgctggcagccattcaacttggaaaaacaaaaaaggttaggacaaaaagtttattcagaatccaacctccaccttctcatg
+parsing merged file ! 
+Done !
+Error: The requested file (calJac.Step_2.get_cdna_v2.0.out..b4sort) could not be opened. Error message: (No such file or directory). Exiting!
+
+*****
+***** ERROR: Requested column 4, but database file calJac.Step_2.get_cdna_v2.0.out.sort only has fields 1 - 0.
+
+Tool:    bedtools merge (aka mergeBed)
+Version: v2.21.0
+Summary: Merges overlapping BED/GFF/VCF entries into a single interval.
+
+Usage:   bedtools merge [OPTIONS] -i <bed/gff/vcf>
+
+Options: 
+	-s	Force strandedness.  That is, only merge features
+		that are on the same strand.
+		- By default, merging is done without respect to strand.
+
+	-S	Force merge for one specific strand only.
+		Follow with + or - to force merge from only
+		the forward or reverse strand, respectively.
+		- By default, merging is done without respect to strand.
+
+	-d	Maximum distance between features allowed for features
+		to be merged.
+		- Def. 0. That is, overlapping & book-ended features are merged.
+		- (INTEGER)
+		- Note: negative values enforce the number of b.p. required for overlap.
+
+	-header	Print the header from the A file prior to results.
+
+	-c	Specify columns from the input file to operate upon (see -o option, below).
+		Multiple columns can be specified in a comma-delimited list.
+
+	-o	Specify the operation that should be applied to -c.
+		Valid operations:
+		    sum, min, max, absmin, absmax,
+		    mean, median,
+		    collapse (i.e., print a delimited list (duplicates allowed)), 
+		    distinct (i.e., print a delimited list (NO duplicates allowed)), 
+		    count
+		    count_distinct (i.e., a count of the unique values in the column), 
+		Default: sum
+		Multiple operations can be specified in a comma-delimited list.
+
+		If there is only column, but multiple operations, all operations will be
+		applied on that column. Likewise, if there is only one operation, but
+		multiple columns, that operation will be applied to all columns.
+		Otherwise, the number of columns must match the the number of operations,
+		and will be applied in respective order.
+		E.g., "-c 5,4,6 -o sum,mean,count" will give the sum of column 5,
+		the mean of column 4, and the count of column 6.
+		The order of output columns will match the ordering given in the command.
+
+
+	-delim	Specify a custom delimiter for the collapse operations.
+		- Example: -delim "|"
+		- Default: ",".
+
+Notes: 
+	(1) The input file (-i) file must be sorted by chrom, then start.
+
+parsing merged file ! 
+Done !
+parsing merged file ! 
+Done !
+parsing merged file ! 
+Done !
+parsing merged file ! 
+Done !
+parsing merged file ! 
+Done !
+parsing merged file ! 
+Done !
+parsing merged file ! 
+Done !

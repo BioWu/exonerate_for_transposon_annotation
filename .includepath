@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includepath>
+  <includepathentry path="/root/perl5/lib/perl5/x86_64-linux-thread-multi" />
+  <includepathentry path="/root/perl5/lib/perl5/x86_64-linux-thread-multi/String" />
+  <includepathentry path="/home/wucc-lab/perl5/lib/perl5" />
+</includepath>
+
