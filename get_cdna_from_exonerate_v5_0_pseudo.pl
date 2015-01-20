@@ -139,11 +139,15 @@ sub parse_exonerate_per_record($singlerecord){
 	#0 for actived ; 1 for frameshift ; 2 for stop_codon ; 3 for N ; 4 for frameshift&stopcodon  
 	my $pseudo_flag = 0;
 	## offset Target range: 1 -> 3635
-	$record_lines[7] =~ /:\s(\d*?)\s/;
-	my $offset = $1;
+	if($record_lines[7] =~ /:\s(\d*)\s\S+\s(\d*)/){
+	my $offset_1 = $1;
+	my $offset_2 = $2;
+	}else{
+		die "Can not get target-ranges.\n"; 
+	}
 	## Target: chr1:73900-77690(+)
 	$record_lines[3] =~ /:\s(.*?):(\w*)-(\w*)\(([+|-])\)/;
-	my ($chr,$start,$end,$strand) = ($1,$2+$offset,$3+$offset,$4);
+	my ($chr,$start,$end,$strand) = ($1,$2+$offset_1,$2+$offset_2,$4);
 	my $pos = join('_',$chr,$start,$end,$strand);
 	# from(12,13) with stepsize 5；while( ! ($record_lines[12+5i] =~ /^#/ && $record_lines[13+5i] =~ /^#/) )
 	my $i = 0;

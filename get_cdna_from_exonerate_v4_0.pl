@@ -8,7 +8,8 @@ use Bio::Seq;
 use Bio::SeqIO;
 use Bio::DB::GenBank;
 use Bio::PrimarySeq;
-
+use String::Index qw( cindex ncindex crindex ncrindex );
+use List::MoreUtils ':all';
 #open( FH_2, "<", "primate_all.usearch99.chr.size" );
 #open( FH, "<","humrep_HERV4_I_Transposable_Element_FT_HERV4_I_2p_14357_2.calJac" );
 
@@ -128,11 +129,18 @@ sub get_cdna_fasta() {
 			  . $fasta_desc,
 			-accession_number => 'TE_' . $i,
 			-alphabet         => 'dna',
-		);
-		my $where = index( $seq_obj_bed_2->seq(), "*" );
-		print $where, "\n";
-		if ( $where > 0 ) {
-
+		);#
+		@tmp_seq = split("",$seq_obj_bed_2->seq());
+		my @where = indexes {$_ =~ /\*/} @tmp_seq;
+		print join("\t",@where), "\n";
+		if ( $#where > 0 ) {
+			@seqs = split("",$seq_obj_bed->seq());
+			foreach(@where){
+				$seqs[3*$_ + 1] = ('N');
+				$seqs[3*$_ + 2] = ('N');
+				$seqs[3*$_ + 3] = ('N');
+			}
+			$seq = join("",@seqs);
 			#				print $seq_obj_bed_2->seq();
 			$seq_obj_bed_trunc = Bio::Seq->new(
 				-seq => $seq,
@@ -301,6 +309,7 @@ open( OUT_FINAL_BED, ">", $ARGV[0] . ".bed" );
 close(OUT_FINAL_BED);
 open( IN_FINAL_BED, "<", $ARGV[0] . ".bed" );
 print STDERR "parsing bed file ! \n";
+'rm *.fa *.aa';
 
 &get_cdna_fasta();
 
