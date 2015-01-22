@@ -140,14 +140,17 @@ sub parse_exonerate_per_record($singlerecord){
 	my $pseudo_flag = 0;
 	## offset Target range: 1 -> 3635
 	if($record_lines[7] =~ /:\s(\d*)\s\S+\s(\d*)/){
-	my $offset_1 = $1;
-	my $offset_2 = $2;
+		$tmp_offset[0] = $1;
+		$tmp_offset[1] = $2;
+		($offset_1,$offset_2)=minmax(@tmp_offset);
+		print $record_lines[7],"\n",join("\t",$offset_1,$offset_2),"\n";
 	}else{
 		die "Can not get target-ranges.\n"; 
 	}
 	## Target: chr1:73900-77690(+)
 	$record_lines[3] =~ /:\s(.*?):(\w*)-(\w*)\(([+|-])\)/;
 	my ($chr,$start,$end,$strand) = ($1,$2+$offset_1,$2+$offset_2,$4);
+	print join("\t",$chr,$start,$end,$strand),"\n";
 	my $pos = join('_',$chr,$start,$end,$strand);
 	# from(12,13) with stepsize 5；while( ! ($record_lines[12+5i] =~ /^#/ && $record_lines[13+5i] =~ /^#/) )
 	my $i = 0;
@@ -184,16 +187,16 @@ sub parse_exonerate_per_record($singlerecord){
 			my @elements_will_be_removed_q = indexes {$_ =~ /\.|-|\{|\}/i} @query_ele;
 			push my @elements_will_be_removed_mix ,@elements_will_be_removed_t,@elements_will_be_removed_q;
 			@elements_will_be_removed_mix_uniq = uniq @elements_will_be_removed_mix;
-			print join("\t",@elements_will_be_removed_mix_uniq,@elements_will_be_changed_t),"\n";
+#			print join("\t",@elements_will_be_removed_mix_uniq,@elements_will_be_changed_t),"\n";
 			foreach(@elements_will_be_changed_t){
 				$query_ele[$_]='N';
 			}
 			foreach(@elements_will_be_removed_mix_uniq){
 					$query_ele[$_]='';
 			}
-			print "Raw:";
-			print $query,"\nNow:";
-			print join('',@query_ele),"\n";
+#			print "Raw:";
+#			print $query,"\nNow:";
+#			print join('',@query_ele),"\n";
 			$query = join('',@query_ele);
 		}
 		push @sequence,$query;
@@ -222,7 +225,7 @@ foreach(@records){
 	print B4SORT &parse_exonerate_per_record($_),"\n";
 }
 `bedtools sort -i $file_b4sort >$file_b4merge`;
-`bedtools merge -i $file_b4merge -d -200 -s -c 1,2,3,4,5,6,7,8 -o collapse,collapse,collapse,collapse,collapse,distinct,collapse,collapse -delim "&" >$file_bed`;
+`bedtools merge -i $file_b4merge  -s -c 1,2,3,4,5,6,7,8 -o collapse,collapse,collapse,collapse,collapse,distinct,collapse,collapse -delim "&" >$file_bed`;
 `rm *.fa_test`;
 print STDERR 'pasrsing bed .\n';
 &parse_bed($file_bed);

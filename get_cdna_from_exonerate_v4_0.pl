@@ -296,6 +296,7 @@ $before_sorted_file = $ARGV[0] . ".b4sort";
 $sorted_file        = $ARGV[0] . ".sort";
 $merged_file        = $ARGV[0] . ".merge";
 `bedtools sort -i $before_sorted_file >$sorted_file`;
+#Should overlap at least 200bp
 `bedtools merge -i $sorted_file  -s -c 4,5,7,6,8,9,11 -o collapse,collapse,collapse,distinct,collapse,collapse,collapse -delim "&" >$merged_file`;
 
 print STDERR "parsing merged file ! \n";
