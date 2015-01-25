@@ -180,6 +180,16 @@ while (<FH>) {
 	elsif (/^>>/) {    #cdna-start end TURNING
 		$cdna_turn *= -1;
 	}
+	elsif (/Target range:/) {
+			$tmp = $_;
+			chomp($tmp);
+			my @tar_range = split( " -> ", $tmp );
+			if($tar_range[0] > $tar_range[1]){
+				$record_keep = 0;
+			}else{
+				$record_keep = 1;
+			}
+		}
 	elsif (/Query range:/) {
 		$tmp = $_;
 		chomp($tmp);
@@ -197,7 +207,7 @@ while (<FH>) {
 		#set N_percentage less than 10%
 		#set stop codon dosenot appear in seq except in last or begining 20 aa.
 		$codon_turnning = &has_stop_codon( $cdna_seq, $fasta_length );
-		if ( $frame_shift == 1 || $N_percentage > 0.1 || $codon_turnning ) {
+		if ($record_keep && $frame_shift == 1 || $N_percentage > 0.1 || $codon_turnning ) {
 			undef @gff;
 			undef @cdna;
 			undef @range;

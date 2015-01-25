@@ -67,6 +67,8 @@ sub parse_merge_file() {
 	}
 }
 
+
+
 sub get_cdna_fasta() {
 	my %te_num;
 
@@ -189,7 +191,7 @@ sub get_before_sort {
 	while (<FH>) {
 		if ( /exonerate:protein2genome:bestfit/ && /\t/ )
 		{    #gff2 turn and frameshifts turn
-
+			
 			if (/frameshifts/) {
 				$frame_shift = 1;
 			}
@@ -204,15 +206,29 @@ sub get_before_sort {
 				$gff[3] += $2;
 				$gff[4] += $2;
 			}
+			
 
 		}
 		elsif (/^>>/) {    #cdna-start end TURNING
 			$cdna_turn *= -1;
 		}
 		elsif (/Query range:/) {
+			
 			$tmp = $_;
 			chomp($tmp);
 			@range = split( " -> ", $tmp );
+		}
+		elsif (/Target range:/) {
+			$record_keep = 0;
+			$tmp = $_;
+			chomp($tmp);
+			$tmp =~ /:\s(\d*)\s\S+\s(\d*)/;
+			my @tar_range = ($1,$2);
+			if($tar_range[0] > $tar_range[1]){
+				$record_keep = 0;
+			}else{
+				$record_keep = 1;
+			}
 		}
 		elsif (/^ >/) {    #start output
 			               #calculate N percentage
@@ -228,7 +244,7 @@ sub get_before_sort {
 			$codon_turnning = &has_stop_codon( $cdna_seq, $fasta_length );
 
 			# change to with frameshift and has stop codon
-			if ( 1 )
+			if ( $record_keep && 1 )
 			{
 
 				#			print @gff,"\n";

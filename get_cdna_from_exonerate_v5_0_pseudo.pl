@@ -1,6 +1,5 @@
 #use warnings;
 #use strict;
-
 use String::Index qw( cindex ncindex crindex ncrindex );
 use List::MoreUtils ':all';
 use Bio::Seq;
@@ -142,8 +141,13 @@ sub parse_exonerate_per_record($singlerecord){
 	if($record_lines[7] =~ /:\s(\d*)\s\S+\s(\d*)/){
 		$tmp_offset[0] = $1;
 		$tmp_offset[1] = $2;
+		#if complement to target sequence, then throw this sequence . 
+		if($tmp_offset[0] > $tmp_offset[1]){
+			print $record_lines[7],"\n";
+			return 0;
+		}
 		($offset_1,$offset_2)=minmax(@tmp_offset);
-		print $record_lines[7],"\n",join("\t",$offset_1,$offset_2),"\n";
+		print $record_lines[7],"\n",join("\t",$tmp_offset[0],$tmp_offset[1]),"\n";
 	}else{
 		die "Can not get target-ranges.\n"; 
 	}
@@ -222,7 +226,11 @@ open B4SORT ,">>",$file_b4sort;
 print STDERR "getting bed file .\n";
 foreach(@records){
 	# for debug only
+	if(&parse_exonerate_per_record($_)){
 	print B4SORT &parse_exonerate_per_record($_),"\n";
+	}else{
+		print STDERR "\nComplement to target sequence !\n";
+	}
 }
 `bedtools sort -i $file_b4sort >$file_b4merge`;
 `bedtools merge -i $file_b4merge  -s -c 1,2,3,4,5,6,7,8 -o collapse,collapse,collapse,collapse,collapse,distinct,collapse,collapse -delim "&" >$file_bed`;
