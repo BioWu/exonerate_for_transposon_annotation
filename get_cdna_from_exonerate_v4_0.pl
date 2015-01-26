@@ -199,12 +199,13 @@ sub get_before_sort {
 
 				#			print $i++,"\n";
 				@gff = split("\t");
-				$gff[0] =~ /(\w*?\.?\w*?):(\d*?)-(\d*?)\(/;
+				$gff[0] =~ /(\w*?\.?\w*?):(\d*?)-(\d*?)\(([-|+])\)/;
 				$gff[0] = $1;
 
 				#calculate coverage of query sequences.
-				$gff[3] += $2;
+				$gff[3] += $2-1;
 				$gff[4] += $2;
+				$gff[5] = $3;
 			}
 			
 
