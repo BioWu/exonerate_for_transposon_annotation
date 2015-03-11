@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.epic.debug.launchConfigurationPerl">
-<stringAttribute key="ATTR_PROJECT_NAME" value="TE-evolutions"/>
-<stringAttribute key="ATTR_STARTUP_FILE" value="get_cdna_from_exonerate_v5_0_pseudo.pl"/>
-</launchConfiguration>

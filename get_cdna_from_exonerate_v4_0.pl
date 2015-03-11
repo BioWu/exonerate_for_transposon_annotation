@@ -205,7 +205,7 @@ sub get_before_sort {
 				#calculate coverage of query sequences.
 				$gff[3] += $2-1;
 				$gff[4] += $2;
-				$gff[5] = $3;
+				$gff[6] = $4;
 			}
 			
 
