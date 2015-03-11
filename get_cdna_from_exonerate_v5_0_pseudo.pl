@@ -218,7 +218,10 @@ sub parse_exonerate_per_record($singlerecord){
 		$add = abs(length($target) - length($query));
 		#for frameshift or stop codon or intron
 		
-		if(length($target) < length($query) && ($query =~ /^[a|t|c|g|n]/i)){
+		if(length($target) < length($query) && ($query =~ /^[a|t|c|g|n|\-|\{|\}]/i)){
+			#"-" for sth like this "
+		  # --SerGlnGluLeuArgPheGlyAsnLeuCysLeuAspPheArgArgCysMet+-
+        # --agtcaagaattgaggtttgggaacctctgcctagatttcagaagatgtatgga....... : 3249"
 			#"-" start from left or may rigth
 				print "Start R\t$id\n";
 				#only from left
